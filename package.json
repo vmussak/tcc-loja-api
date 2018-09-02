@@ -1,0 +1,25 @@
+{
+  "name": "loja-api",
+  "version": "1.0.0",
+  "description": "API do meu TCC responsavel por fazer reconhecimento facial",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vmussak/tcc-loja-api.git"
+  },
+  "keywords": [
+    "reconhecimento",
+    "facial",
+    "azure",
+    "loja"
+  ],
+  "author": "Vinicius Mussak <vinicius.mussak@outlook.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vmussak/tcc-loja-api/issues"
+  },
+  "homepage": "https://github.com/vmussak/tcc-loja-api#readme"
+}
