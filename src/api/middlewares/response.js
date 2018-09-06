@@ -1,5 +1,5 @@
 module.exports = (req, res, next) => {
-    res.error = (message, content, status) => {
+    res.error = (message, status, content) => {
         const resp = {
             message: message,
             content: content,

@@ -1,13 +1,19 @@
+const repository = require('./repository');
+
 module.exports = {
-    buscaUsuarioLogin
+    buscaUsuarioLogin,
+    efetuarLogin
 };
 
 async function buscaUsuarioLogin(req, res) {
-    res.ok({
-        id: 1,
-        nome: 'Vinicius Mussak',
-        cor: cores[1]
-    });
+    let usuario = await repository.buscaUsuarioLogin(req.params.login);
+
+    if(!usuario)
+        return res.error('Usuário não encontrado', 404);
+
+    usuario.cor = cores[usuario.id];
+
+    res.ok(usuario);
 }
 
 async function efetuarLogin(req, res) {
