@@ -17,11 +17,15 @@ async function buscaUsuarioLogin(req, res) {
 }
 
 async function efetuarLogin(req, res) {
-    res.ok({
-        id: 1,
-        nome: 'Vinicius Mussak',
-        token: 'ARRAYYYYYYY'
-    });
+    let usuario = await repository.buscarUsuarioLoginSenha(req.body);
+
+    if(!usuario)
+        return res.error('Senha incorreta', 404);
+
+    usuario.cor = cores[usuario.id];
+    usuario.token = 'ARRAYYYYY';
+
+    res.ok(usuario);
 }
 
 

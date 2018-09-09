@@ -5,9 +5,7 @@ const express = require('express'),
     cors = require('./api/middlewares/cors'),
     response = require('./api/middlewares/response'),
     errors = require('./api/middlewares/errors'),
-    loadRoutes = require('./api/routes/init'),
-    reconhecimentoFacial = require('./api/services/reconhecimentoFacial'),
-    fs = require('fs');
+    loadRoutes = require('./api/routes/init');
 
 app.use(helmet());
 
@@ -18,20 +16,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 loadRoutes(app);
-
-app.get('/', async (req, res) => {
-    let data = fs.readFileSync(`C:\\Users\\Vinicius Mussak\\Desktop\\testes-face\\1.jpg`);
-
-    var payload = Buffer.concat([
-        Buffer.from(data, "utf8")
-    ]);
-
-    let face = await reconhecimentoFacial.uploadFaceParaDeteccao(payload);
-    
-    let a = eu;
-
-    res.status(200).json({a: 1});
-});
 
 app.use(errors.serverError);
 app.use(errors.notFound);
