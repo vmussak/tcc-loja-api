@@ -116,8 +116,6 @@ CREATE OR REPLACE FUNCTION loja.atualizarUsuario(pId integer, pNome varchar, pLo
 
     RETURNS integer AS $$
 
-    DECLARE vId integer;
-
     BEGIN
         
         UPDATE loja.usuario
@@ -145,8 +143,6 @@ CREATE OR REPLACE FUNCTION loja.excluirUsuario(pId integer)
     */
 
     RETURNS void AS $$
-
-    DECLARE vId integer;
 
     BEGIN
         
