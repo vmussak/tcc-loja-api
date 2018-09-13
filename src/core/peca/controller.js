@@ -1,4 +1,7 @@
-const repository = require('./repository');
+const repository = require('./repository'),
+    azure = require('../../api/helpers/azure-blob');
+
+const BLOB_URL = 'https://tccmussak.blob.core.windows.net/peca';
 
 module.exports = {
     selecionarPeca,
@@ -12,26 +15,26 @@ async function selecionarPeca(req, res) {
     let pecas = await repository.selecionarPeca(req.query.filtro);
 
     pecas.forEach(item => {
-        item.imagem = 'https://img.ijacotei.com.br/produtos/200/200/22/79/12037922.jpg'
+        item.imagem = `${BLOB_URL}/${item.id}.jpg`
     });
 
     res.ok(pecas);
 }
 
 async function buscarPeca(req, res) {
-    let Peca = await repository.buscarPeca(req.params.id);
+    let peca = await repository.buscarPeca(req.params.id);
 
-    if(!peca)
+    if (!peca)
         return res.error('Peça não encontrada', 404);
 
-    peca.imagem = 'https://img.ijacotei.com.br/produtos/200/200/22/79/12037922.jpg';
+    peca.imagem = `${BLOB_URL}/${peca.id}.jpg`
     res.ok(peca);
 }
 
 async function inserirPeca(req, res) {
     let peca = await repository.inserirPeca(req.body);
 
-    //inserir imagem da peça
+    await azure.upload('peca', `${peca}.jpg`, req.body.imagem)
 
     res.ok(peca);
 }
@@ -39,16 +42,17 @@ async function inserirPeca(req, res) {
 async function atualizarPeca(req, res) {
     let peca = await repository.atualizarPeca(req.body);
 
-    if(req.body.imagem){
-        //atualizar imagem da peça
+    let imagem = req.body.imagem;
+    if (imagem && (imagem.indexOf('http') == -1 || imagem.indexOf('http') > 0)) {
+        await azure.upload('peca', `${req.params.id}.jpg`, imagem)
     }
 
     res.ok(peca);
 }
 
 async function excluirPeca(req, res) {
-    if(false) {
-        //verifica se pode ser excluida
+    if (await repository.verificaExclusaoPeca(req.params.id)) {
+        res.error('Peça já foi utilizada em compra', 406);
     }
 
     await repository.excluirPeca(req.params.id);

@@ -186,3 +186,29 @@ CREATE OR REPLACE FUNCTION loja.excluirPeca(pId integer)
     END;
 $$
 LANGUAGE plpgsql;
+
+
+
+
+
+
+SELECT loja.excluirFuncao('loja','verificaExclusaoPeca');
+CREATE OR REPLACE FUNCTION loja.verificaExclusaoPeca(pId integer)
+
+    /*
+        SELECT * FROM loja.verificaExclusaoPeca(1)
+    */
+
+    RETURNS integer AS $$
+
+    BEGIN
+        
+        RETURN (
+            SELECT 1
+                FROM loja.vendaitem
+                WHERE idpeca = pId
+        );
+
+    END;
+$$
+LANGUAGE plpgsql;

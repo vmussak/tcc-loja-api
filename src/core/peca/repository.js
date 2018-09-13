@@ -6,7 +6,8 @@ module.exports = {
     buscarPeca,
     inserirPeca,
     atualizarPeca,
-    excluirPeca
+    excluirPeca,
+    verificaExclusaoPeca
 };
 
 const procedures = {
@@ -14,7 +15,8 @@ const procedures = {
     buscarPeca: 'buscarPeca',
     inserirPeca: 'inserirPeca',
     atualizarPeca: 'atualizarPeca',
-    excluirPeca: 'excluirPeca'
+    excluirPeca: 'excluirPeca',
+    verificaExclusaoPeca: 'verificaExclusaoPeca'
 };
 
 async function selecionarPeca(filtro) {
@@ -58,3 +60,8 @@ async function excluirPeca(id) {
         .asyncExecOne(procedures.excluirUsuario);
 }
 
+async function verificaExclusaoPeca(id) {
+    return await pg.request()
+        .input('pId', id)
+        .asyncExecOne(procedures.verificaExclusaoPeca);
+}
