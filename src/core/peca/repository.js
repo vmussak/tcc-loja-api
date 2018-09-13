@@ -57,7 +57,7 @@ async function atualizarPeca(peca) {
 async function excluirPeca(id) {
     return await pg.request()
         .input('pId', id)
-        .asyncExecOne(procedures.excluirUsuario);
+        .asyncExecOne(procedures.excluirPeca);
 }
 
 async function verificaExclusaoPeca(id) {
