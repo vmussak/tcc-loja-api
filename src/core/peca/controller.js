@@ -34,7 +34,7 @@ async function buscarPeca(req, res) {
 async function inserirPeca(req, res) {
     let peca = await repository.inserirPeca(req.body);
 
-    await azure.upload('peca', `${peca}.jpg`, req.body.imagem)
+    await azure.upload('peca', `${peca}.jpg`, req.body.imagem);
 
     res.ok(peca);
 }
@@ -52,7 +52,7 @@ async function atualizarPeca(req, res) {
 
 async function excluirPeca(req, res) {
     if (await repository.verificaExclusaoPeca(req.params.id)) {
-        res.error('Peça já foi utilizada em compra', 406);
+        return res.error('Peça já foi utilizada em compra', 406);
     }
 
     await repository.excluirPeca(req.params.id);

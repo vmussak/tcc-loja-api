@@ -4,6 +4,7 @@ async function loadRoutes(app) {
     require('./usuario')(app);
     require('./tipoPeca')(app);
     require('./peca')(app);
+    require('./cliente')(app);
 }
 
 

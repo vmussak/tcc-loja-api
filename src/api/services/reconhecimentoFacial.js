@@ -1,14 +1,16 @@
 const request = require('request-promise'),
     faceApi = 'https://southcentralus.api.cognitive.microsoft.com/face/v1.0',
     faceApiKey = process.env.AZURE_API_FACE_KEY,
-    largeFaceListName = 'loja';
+    largeFaceListName = 'loja',
+    blobUrl = 'https://tccmussak.blob.core.windows.net/cliente',
+    blobReconhecimentoUrl = 'https://tccmussak.blob.core.windows.net/reconhecimento';
 
 module.exports = {
     verificarFace,
     treinarReconhecimento,
     criarLargeFaceList,
     uploadFaceParaDeteccao,
-    uploadImagemCliente
+    uploadImagem
 };
 
 async function verificarFace(faceId) {
@@ -46,9 +48,7 @@ async function treinarReconhecimento() {
     return response;
 };
 
-//instalar o pacote do azure
-//fazer upload no blob
-async function uploadFaceParaDeteccao(fileUrl) {
+async function uploadFaceParaDeteccao(imageName) {
     let config = {
         method: 'POST',
         uri: `${faceApi}/detect?returnFaceId=true&returnFaceLandmarks=false`,
@@ -56,15 +56,31 @@ async function uploadFaceParaDeteccao(fileUrl) {
             'Ocp-Apim-Subscription-Key': faceApiKey
         },
         json: true,
-        body: fileUrl
+        body: {
+            url: `${blobReconhecimentoUrl}/${imageName}`
+        }
     };
 
     let response = await request(config);
     return response;
 }
 
-async function uploadImagemCliente() {
+async function uploadImagem(imageName) {
+    let config = {
+        method: 'POST',
+        uri: `${faceApi}/largefacelists/${largeFaceListName}/persistedfaces`,
+        headers: {
+            'Ocp-Apim-Subscription-Key': faceApiKey
+        },
+        json: true,
+        body: {
+            url: `${blobUrl}/${imageName}`
+        }
+    };
 
+    let response = await request(config);
+
+    return response;
 }
 
 //rodar uma vez só

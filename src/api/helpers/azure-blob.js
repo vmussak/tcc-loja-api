@@ -23,7 +23,8 @@ async function upload(containerName, fileName, file) {
 
                 removeLocalFileSync(fileName);
                 resolve(result);
-            });
+            }
+        );
     });
 }
 
