@@ -60,7 +60,6 @@ async function atualizarCliente(cliente) {
         .input('pDataNascimento', cliente.dataNascimento)
         .input('pEmail', cliente.email)
         .input('pTelefone', cliente.telefone)
-        .input('pFaceId', cliente.faceId)
         .asyncExecOne(procedures.atualizarCliente);
 }
 

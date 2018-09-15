@@ -66,7 +66,7 @@ async function atualizarCliente(req, res) {
 
 async function _atualizarReconhecimentoFacial(idCliente, imagem) {
     let imageName = `${idCliente}.jpg`;
-    await azure.upload('cliente', imageName, imagem);
+    await azureStorage.upload('cliente', imageName, imagem);
 
     let face = await reconhecimentoFacial.uploadImagem(imageName);
     let faceId = face.persistedFaceId;

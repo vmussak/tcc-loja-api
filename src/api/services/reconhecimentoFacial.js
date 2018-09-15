@@ -66,6 +66,8 @@ async function uploadFaceParaDeteccao(imageName) {
 }
 
 async function uploadImagem(imageName) {
+    await criarLargeFaceList();
+
     let config = {
         method: 'POST',
         uri: `${faceApi}/largefacelists/${largeFaceListName}/persistedfaces`,
