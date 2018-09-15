@@ -45,7 +45,7 @@ async function inserirCliente(req, res) {
 
     let cliente = await repository.inserirCliente(req.body);
 
-    await _atualizarReconhecimentoFacial(cliente, req.body.imagem);
+    await _atualizarReconhecimentoFacial(cliente, req.body.novaImagem);
 
     res.ok(cliente);
 }
@@ -56,8 +56,8 @@ async function atualizarCliente(req, res) {
     if (clienteDb && clienteDb != req.params.id)
         return res.error('Já existe um cliente com esse CPF', 406);
 
-    let imagem = req.body.imagem;
-    if (imagem && (imagem.indexOf('http') == -1 || imagem.indexOf('http') > 0)) {
+    let imagem = req.body.novaImagem;
+    if (imagem) {
         await _atualizarReconhecimentoFacial(cliente, imagem);
     }
 
@@ -74,12 +74,19 @@ async function _atualizarReconhecimentoFacial(idCliente, imagem) {
 
     await repository.atualizarFaceId(idCliente, faceId);
 
-    await reconhecimentoFacial.treinarReconhecimento();
+    reconhecimentoFacial.treinarReconhecimento();
 }
 
 async function excluirCliente(req, res) {
     if (await repository.verificaExclusaoCliente(req.params.id)) {
         return res.error('Cliente já possui venda vinculada', 406);
+    }
+
+    await azureStorage.deleteBlob('cliente', req.params.id);
+
+    let cliente = await repository.buscarClienteFaceId(req.params.id);
+    if(cliente) {
+        await reconhecimentoFacial.removerDaLista(cliente.faceId);
     }
 
     await repository.excluirCliente(req.params.id);

@@ -83,6 +83,21 @@ async function uploadImagem(imageName) {
     return response;
 }
 
+async function removerDaLista(faceId) {
+    let config = {
+        method: 'DELETE',
+        uri: `${faceApi}/largefacelists/${largeFaceListName}/persistedfaces/${faceId}`,
+        headers: {
+            'Ocp-Apim-Subscription-Key': faceApiKey
+        },
+        json: true
+    };
+
+    let response = await request(config);
+
+    return response;
+}
+
 //rodar uma vez só
 async function criarLargeFaceList() {
     let config = {

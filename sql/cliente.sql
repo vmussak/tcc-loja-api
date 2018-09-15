@@ -254,3 +254,35 @@ CREATE OR REPLACE FUNCTION loja.atualizarFaceId(
     END;
 $$
 LANGUAGE plpgsql;
+
+
+
+
+
+
+SELECT loja.excluirFuncao('loja','buscarClienteFaceId');
+CREATE OR REPLACE FUNCTION loja.buscarClienteFaceId(pId integer)
+
+    /*
+        SELECT * FROM loja.buscarClienteFaceId(1)
+    */
+
+    RETURNS json AS $$
+
+    DECLARE vCliente json;
+
+    BEGIN
+        
+        vCliente := (
+            SELECT row_to_json(row) FROM (
+                SELECT  c.faceid as "faceId"
+                    FROM loja.cliente c
+                    WHERE c.id = pId
+            ) row
+        );
+        
+        RETURN vCliente;
+
+    END;
+$$
+LANGUAGE plpgsql;

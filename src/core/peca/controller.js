@@ -56,6 +56,8 @@ async function excluirPeca(req, res) {
         return res.error('Peça já foi utilizada em compra', 406);
     }
 
+    await azure.deleteBlob('peca', req.params.id);
+
     await repository.excluirPeca(req.params.id);
     res.ok();
 }

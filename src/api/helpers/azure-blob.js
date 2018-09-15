@@ -7,7 +7,8 @@ const Promise = require('promise'),
 const FOLDER = __dirname + '../../uploads/';
 
 module.exports = {
-    upload
+    upload,
+    deleteBlob
 };
 
 async function upload(containerName, fileName, file) {
@@ -22,6 +23,19 @@ async function upload(containerName, fileName, file) {
                 if (error) return reject(error);
 
                 removeLocalFileSync(fileName);
+                resolve(result);
+            }
+        );
+    });
+}
+
+async function deleteBlob(containerName, fileName) {
+    return new Promise((resolve, reject) => {
+        blobService.deleteBlobIfExists(
+            containerName,
+            `${fileName}.jpg`,
+            (error, result, response) => {
+                if (error) return reject(error);
                 resolve(result);
             }
         );

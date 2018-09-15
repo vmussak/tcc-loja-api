@@ -9,7 +9,8 @@ module.exports = {
     excluirCliente,
     verificaExisteCliente,
     verificaExclusaoCliente,
-    atualizarFaceId
+    atualizarFaceId,
+    buscarClienteFaceId
 };
 
 const procedures = {
@@ -20,7 +21,8 @@ const procedures = {
     excluirCliente: 'excluirCliente',
     verificaExisteCliente: 'verificaExisteCliente',
     verificaExclusaoCliente: 'verificaExclusaoCliente',
-    atualizarFaceId: 'atualizarFaceId'
+    atualizarFaceId: 'atualizarFaceId',
+    buscarClienteFaceId: 'buscarClienteFaceId'
 };
 
 async function selecionarCliente(filtro) {
@@ -79,4 +81,10 @@ async function verificaExclusaoCliente(id) {
     return await pg.request()
         .input('pId', id)
         .asyncExecOne(procedures.verificaExclusaoCliente);
+}
+
+async function buscarClienteFaceId(id) {
+    return await pg.request()
+        .input('pId', id)
+        .asyncExecOne(procedures.buscarClienteFaceId);
 }
