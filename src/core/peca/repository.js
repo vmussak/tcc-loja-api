@@ -48,7 +48,7 @@ async function atualizarPeca(peca) {
         .input('pIdTipoPeca', peca.idTipoPeca)
         .input('pNome', peca.nome)
         .input('pTamanho', peca.tamanho)
-        .input('pValor', peca.valor)
+        .input('pValor', peca.valor )
         .input('pCor', peca.cor)
         .input('pQuantidadeEstoque', peca.quantidadeEstoque)
         .asyncExecOne(procedures.atualizarPeca);

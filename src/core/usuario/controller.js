@@ -12,6 +12,7 @@ module.exports = {
 async function selecionarUsuario(req, res) {
     let usuarios = await repository.selecionarUsuario(req.query.filtro);
 
+    if (!usuarios) usuarios = [];
     usuarios.forEach(item => {
         item.cor = colorize(item.id);
     });

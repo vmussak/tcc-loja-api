@@ -16,6 +16,7 @@ module.exports = {
 async function selecionarCliente(req, res) {
     let clientes = await repository.selecionarCliente(req.query.filtro);
 
+    if (!clientes) clientes = [];
     clientes.forEach(item => {
         item.cor = colorize(item.id);
         item.imagem = `${BLOB_URL}/${item.id}.jpg`

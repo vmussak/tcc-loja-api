@@ -85,7 +85,7 @@ CREATE OR REPLACE FUNCTION loja.inserirPeca(
     pIdTipoPeca smallint,
     pNome varchar(50),
     pTamanho char(1),
-    pValor money,
+    pValor decimal(10,2),
     pCor varchar(20),
     pQuantidadeEstoque integer
 )
@@ -136,7 +136,7 @@ CREATE OR REPLACE FUNCTION loja.atualizarPeca(
     pIdTipoPeca smallint,
     pNome varchar(50),
     pTamanho char(1),
-    pValor money,
+    pValor decimal(10,2),
     pCor varchar(20),
     pQuantidadeEstoque integer
 )

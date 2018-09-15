@@ -14,6 +14,7 @@ module.exports = {
 async function selecionarPeca(req, res) {
     let pecas = await repository.selecionarPeca(req.query.filtro);
 
+    if (!pecas) pecas = [];
     pecas.forEach(item => {
         item.imagem = `${BLOB_URL}/${item.id}.jpg`
     });
@@ -34,7 +35,7 @@ async function buscarPeca(req, res) {
 async function inserirPeca(req, res) {
     let peca = await repository.inserirPeca(req.body);
 
-    await azure.upload('peca', `${peca}.jpg`, req.body.imagem);
+    await azure.upload('peca', `${peca}.jpg`, req.body.novaImagem);
 
     res.ok(peca);
 }
@@ -42,8 +43,8 @@ async function inserirPeca(req, res) {
 async function atualizarPeca(req, res) {
     let peca = await repository.atualizarPeca(req.body);
 
-    let imagem = req.body.imagem;
-    if (imagem && (imagem.indexOf('http') == -1 || imagem.indexOf('http') > 0)) {
+    let imagem = req.body.novaImagem;
+    if (imagem) {
         await azure.upload('peca', `${req.params.id}.jpg`, imagem)
     }
 
