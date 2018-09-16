@@ -3,12 +3,14 @@ const settings = require('../../../config/settings'),
 
 module.exports = {
     reconhecerCliente,
-    registrarVisitaCliente
+    registrarVisitaCliente,
+    buscarClientePorVisita
 };
 
 const procedures = {
     reconhecerCliente: 'reconhecerCliente',
-    registrarVisitaCliente: 'registrarVisitaCliente'
+    registrarVisitaCliente: 'registrarVisitaCliente',
+    c: 'buscarClientePorVisita'
 };
 
 async function reconhecerCliente(faceId){
@@ -22,4 +24,10 @@ async function registrarVisitaCliente(idCliente, imagem){
         .input('pIdCliente', idCliente)
         .input('pImagem', imagem)
         .asyncExecOne(procedures.registrarVisitaCliente);
+}
+
+async function buscarClientePorVisita(idVisita){
+    return await pg.request()
+        .input('pIdVisita', idVisita)
+        .asyncExecOne(procedures.buscarClientePorVisita);
 }
