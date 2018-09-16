@@ -7,7 +7,8 @@ const BLOB_URL_CLIENTE = 'https://tccmussak.blob.core.windows.net/cliente';
 const BLOB_URL_PECA = 'https://tccmussak.blob.core.windows.net/peca';
 
 module.exports = {
-    reconhecerCliente
+    reconhecerCliente,
+    buscarClientePorVisita
 };
 
 async function reconhecerCliente(req, res) {
@@ -16,12 +17,15 @@ async function reconhecerCliente(req, res) {
 
     let face = await reconhecimentoFacial.uploadFaceParaDeteccao(imageName);
 
+    if(!face)
+        return res.error('Nenhuma face encontrada', 404);
+
     let detectedFaceIds = await reconhecimentoFacial.verificarFace(face[0].faceId);
 
     if (!detectedFaceIds.length)
         return res.error('Nenhum cliente encontrado', 404);
 
-    let cliente = await repository.reconhecerCliente(detectedFaceIds[1].persistedFaceId);
+    let cliente = await repository.reconhecerCliente(detectedFaceIds[0].persistedFaceId);
 
     if (!cliente)
         return res.error('Nenhum cliente encontrado', 404);
@@ -32,8 +36,8 @@ async function reconhecerCliente(req, res) {
     res.ok(cliente);
 }
 
-async function buscarClientePorVisita(idVisita) {
-    let cliente = await repository.buscarClientePorVisita(idVisita);
+async function buscarClientePorVisita(req, res) {
+    let cliente = await repository.buscarClientePorVisita(req.params.idVisita);
 
     if(!cliente)
         return res.error('Dados do cliente não encontrados', 404);

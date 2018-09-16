@@ -1,11 +1,15 @@
 const controller = require('../../core/login/controller');
 
-module.exports = (app) => {
+module.exports = [
+    {
+        route: '/api/login/:login',
+        method: 'get',
+        controller: controller.buscaUsuarioLogin
+    },
+    {
+        route: '/api/login',
+        method: 'post',
+        controller: controller.efetuarLogin
+    }
+];
 
-    app.route('/api/login/:login')
-        .get(controller.buscaUsuarioLogin);
-
-    app.route('/api/login')
-        .post(controller.efetuarLogin);
-
-}

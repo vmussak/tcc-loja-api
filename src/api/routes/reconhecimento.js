@@ -1,8 +1,14 @@
 const controller = require('../../core/reconhecimento/controller');
 
-module.exports = (app) => {
-
-    app.route('/api/reconhecimento')
-        .post(controller.reconhecerCliente);
-
-}
+module.exports = [
+    {
+        route: '/api/reconhecimento',
+        method: 'post',
+        controller: controller.reconhecerCliente
+    },
+    {
+        route: '/api/reconhecimento/:idVisita',
+        method: 'get',
+        controller: controller.buscarClientePorVisita
+    }
+];

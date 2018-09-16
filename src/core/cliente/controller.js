@@ -58,14 +58,14 @@ async function atualizarCliente(req, res) {
 
     let imagem = req.body.novaImagem;
     if (imagem) {
-        await _atualizarReconhecimentoFacial(cliente, imagem);
+        await _atualizarReconhecimentoFacial(cliente, imagem, true);
     }
 
     let cliente = await repository.atualizarCliente(req.body);
     res.ok(cliente);
 }
 
-async function _atualizarReconhecimentoFacial(idCliente, imagem) {
+async function _atualizarReconhecimentoFacial(idCliente, imagem, edicao) {
     let imageName = `${idCliente}.jpg`;
     await azureStorage.upload('cliente', imageName, imagem);
 
@@ -73,6 +73,13 @@ async function _atualizarReconhecimentoFacial(idCliente, imagem) {
     let faceId = face.persistedFaceId;
 
     await repository.atualizarFaceId(idCliente, faceId);
+
+    if(edicao) {
+        let cliente = await repository.buscarClienteFaceId(idCliente);
+        if(cliente) {
+            await reconhecimentoFacial.removerDaLista(cliente.faceId);
+        }
+    }
 
     reconhecimentoFacial.treinarReconhecimento();
 }

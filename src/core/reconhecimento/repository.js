@@ -10,7 +10,7 @@ module.exports = {
 const procedures = {
     reconhecerCliente: 'reconhecerCliente',
     registrarVisitaCliente: 'registrarVisitaCliente',
-    c: 'buscarClientePorVisita'
+    buscarClientePorVisita: 'buscarClientePorVisita'
 };
 
 async function reconhecerCliente(faceId){
